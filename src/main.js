@@ -1,4 +1,3 @@
-
 // Macht alle Fragen/Optionen editierbar und speichert Änderungen (DOM-basiert)
 // Hängt mit localStorage zusammen (persistiert Änderungen)
 function setupEditable() {
@@ -207,6 +206,8 @@ fileInput.addEventListener('change', e => {
     if (fileInput.files.length) handleXmlFile(fileInput.files[0]);
 });
 
+//XML-Datei einlesen und Frage einfpügen
+
 function handleXmlFile(file) {
     if (!file.name.toLowerCase().endsWith('.xml')) {
         alert('Nur XML-Dateien sind erlaubt!');
@@ -230,27 +231,158 @@ function handleXmlFile(file) {
             const qid = 'q' + (i + 1);
             const qText = q.querySelector('questiontext > text')?.textContent || 'Neue Frage';
 
-            // Beispielhaft: Antworten auslesen 
+            // Antworten auslesen 
             const options = q.getElementsByTagName('answer');
-            let optionTexts = [];
+
+            const optionTexts = [];
+            const optionFractions = [];
             for (let j = 0; j < options.length; j++) {
-                optionTexts.push(options[j].querySelector('text')?.textContent || `Antwort ${j + 1}`);
+                const ans = options[j];
+                optionTexts.push(ans.querySelector('text')?.textContent || `Antwort ${j + 1}`);
+                const fracRaw = ans.getAttribute('fraction'); // z.B. "100", "50", "-33.33333"
+                optionFractions.push(fracRaw ?? "0");
             }
+            // Frage erzeugen (richtig)
+            const markup = createQuestionHtml(qid, optionTexts.length, optionTexts);
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = markup;
+            const questionEl = wrapper.firstElementChild;
+            container.appendChild(questionEl);
 
-            //geht nicht!!!
+            // Setup (wie bei neuen Fragen)
+            setupOptionsHandlers(questionEl);
+            setTimeout(() => { setupEditable(); setupRemoveButtons(); }, 0);
 
-            const questionTexter = q.getElementsByTagName('questiontext');
-            let optionQuestion = [];
-            for (let i = 0; i < options.length; i++) {
-                optionQuestion.push(options[i].querySelector('text')?.textContent || `Antwort ${j + 1}`);
-            }
+            // Fragetext aus XML einsetzen
+            const textEl = questionEl.querySelector(`#${qid}-text`);
+            if (textEl) textEl.textContent = qText;
 
-
-            // Deine bestehende HTML-Erzeugung
-            container.innerHTML += createQuestionHtml(qid, optionTexts.length, optionTexts);
-            container.innerHTML += createQuestionHtmll(qid, optionTexts.length, optionTexts);
+            // Fraction-Werte (Bewertung der Antworten) einsetzen
+            const optionLis = questionEl.querySelectorAll('ul.options-list > li');
+            optionLis.forEach((li, idx) => {
+                const sel = li.querySelector('select.option-percent');
+                if (!sel) return;
+                const raw = optionFractions[idx] ?? "0";
+                const exact = Array.from(sel.options).find(o => o.value === raw);
+                if (exact) sel.value = exact.value;
+                else {
+                    // nächstliegender Wert falls Rundung
+                    let best = sel.options[0].value, bestDiff = Infinity, target = parseFloat(raw);
+                    for (let o of sel.options) {
+                        const diff = Math.abs(parseFloat(o.value) - target);
+                        if (diff < bestDiff) { bestDiff = diff; best = o.value; }
+                    }
+                    sel.value = best;
+                }
+            });
         }
     };
 
     reader.readAsText(file);
 }
+
+
+// Export als Moodle XML Block
+// Hilfsfunktion: XML-Entities escapen
+function escapeXml(s) {
+    return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&apos;");
+}
+
+// Aus aktuellem DOM (demo-question) Moodle-XML erzeugen
+function buildMoodleXmlFromDom() {
+    const questions = Array.from(document.querySelectorAll('.demo-question'));
+
+    // Hilfsfunktion: "single" ermitteln
+    // Heuristik: Single = genau eine Option mit positiver Punktzahl (>0) und diese ist 100%.
+    function isSingleChoice(opts) {
+        const positives = opts.filter(o => o.fraction > 0);
+        return positives.length === 1 && Math.abs(positives[0].fraction - 100) < 1e-6;
+    }
+
+    const questionXml = questions.map((qDiv, idx) => {
+        const qid = qDiv.id || `q${idx + 1}`;
+        const qtextEl = qDiv.querySelector(`#${qid}-text`);
+        const qtext = qtextEl ? qtextEl.textContent.trim() : `Frage ${idx + 1}`;
+
+        // Optionen einsammeln
+        const options = Array.from(qDiv.querySelectorAll('ul.options-list > li')).map((li, i) => {
+            const label = li.querySelector('label');
+            const select = li.querySelector('select.option-percent');
+            const text = (label?.textContent ?? `Antwort ${i + 1}`).trim();
+            const fraction = select ? parseFloat(select.value) : 0;
+            return { text, fraction };
+        });
+
+        const single = isSingleChoice(options);
+
+        // Optional: Standardwerte
+        const defaultgrade = "1.0000000";
+        const penalty = "0.3333333";
+        const shuffleanswers = "1";
+        const answernumbering = "abc";
+
+        // Antwort-XML
+        const answersXml = options.map(opt => {
+            // Moodle erwartet Prozent (auch Dezimal erlaubt)
+            const fracStr = Number.isFinite(opt.fraction) ? String(opt.fraction) : "0";
+            return `
+      <answer fraction="${escapeXml(fracStr)}">
+        <text>${escapeXml(opt.text)}</text>
+        <feedback format="html"><text></text></feedback>
+      </answer>`;
+        }).join('');
+
+        // Komplette Frage als multichoice
+        return `
+  <question type="multichoice">
+    <name><text>${escapeXml(qid)}</text></name>
+    <questiontext format="html">
+      <text>${escapeXml(qtext)}</text>
+    </questiontext>
+    <generalfeedback format="html"><text></text></generalfeedback>
+    <defaultgrade>${defaultgrade}</defaultgrade>
+    <penalty>${penalty}</penalty>
+    <hidden>0</hidden>
+    <single>${single ? 'true' : 'false'}</single>
+    <shuffleanswers>${shuffleanswers}</shuffleanswers>
+    <answernumbering>${answernumbering}</answernumbering>
+    ${answersXml}
+  </question>`;
+    }).join('\n');
+
+    // Gesamtes Quiz
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+${questionXml}
+</quiz>`;
+
+    return xml;
+}
+
+// Datei-Download anstoßen
+function downloadTextFile(filename, text) {
+    const blob = new Blob([text], { type: 'application/xml;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+}
+
+// Button "Als XML exportieren" verdrahten
+const exportBtn = document.getElementById('btn-export-xml');
+if (exportBtn) {
+    exportBtn.addEventListener('click', () => {
+        const xml = buildMoodleXmlFromDom();
+        downloadTextFile('moodle-questions.xml', xml);
+    });
+}
+
