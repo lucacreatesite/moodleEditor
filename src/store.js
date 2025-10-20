@@ -3,36 +3,6 @@
 // Enum für Fragetypen (Single/Multi-Choice)
 export const QuestionType = { SINGLE: 'single', MULTI: 'multi' };
 
-// Seed-Daten für initiale Fragen (Demo/Startdaten)
-const seedQuestions = [
-  {
-    id: crypto.randomUUID(),
-    text: 'Was ist die Hauptstadt von Deutschland?',
-    type: QuestionType.SINGLE,
-    options: [
-      { id: crypto.randomUUID(), text: 'Berlin', correct: true },
-      { id: crypto.randomUUID(), text: 'München' },
-      { id: crypto.randomUUID(), text: 'Hamburg' },
-      { id: crypto.randomUUID(), text: 'Köln' }
-    ],
-    required: true,
-    order: 1
-  },
-  {
-    id: crypto.randomUUID(),
-    text: 'Welche sind Programmiersprachen?',
-    type: QuestionType.MULTI,
-    options: [
-      { id: crypto.randomUUID(), text: 'JavaScript', correct: true },
-      { id: crypto.randomUUID(), text: 'Python', correct: true },
-      { id: crypto.randomUUID(), text: 'HTML' },
-      { id: crypto.randomUUID(), text: 'C++', correct: true }
-    ],
-    required: false,
-    order: 2
-  }
-];
-
 const MAX_HISTORY = 20; // Maximale Undo-Schritte
 
 // Haupt-Store-Objekt für Fragenverwaltung, Undo/Redo und Listener
