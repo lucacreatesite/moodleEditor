@@ -25,9 +25,9 @@ Kein Login notwendig: Läuft vollständig lokal im Browser
 5. Mit "Als XML exportieren" speichern.
 6. Die heruntergeladene Datei in Moodle → Fragensammlung importieren.
 
-    ## Import von vorhandenen Fragen
+## Import von vorhandenen Fragen
 
-    - Moodle → Fragen exportieren (XML)
-    - Datei im Tool per Drag-and-Drop oder Upload auswählen
-    - Fragen erscheinen automatisch im Editor
+- Moodle → Fragen exportieren (XML)
+- Datei im Tool per Drag-and-Drop oder Upload auswählen
+- Fragen erscheinen automatisch im Editor
 
