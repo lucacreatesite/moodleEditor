@@ -1,50 +1,53 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fragen-Manager</title>
-  <!-- Haupt-Stylesheet für alle Komponenten -->
-  <link rel="stylesheet" href="assets/styles.css">
-</head>
+  <meta name="description" content="Editor zum Importieren, Bearbeiten und Exportieren von Moodle-Fragen als XML." />
+  
+  <!-- Zentrales CSS File -->
+  
+<link rel="stylesheet" href="assets/styles.css" />
 
+</head>
 <body>
+
   <header>
     <h1>Fragen-Manager</h1>
   </header>
+
   <main class="vertical-layout">
-    <!-- Importbereich für XML-Dateien -->
-    <section id="import-area" data-testid="import-area" aria-label="Fragen importieren" style="margin-top:2.5em;">
-      <div class="import-dropzone-demo" id="xml-dropzone">
-        <span class="drop-label">Drag & Drop</span>
+    <!-- Importbereich für die XML-Dateien -->
+    <section id="import-area"  style="margin-top:2.5em;">
+      <div class="import-dropzone-demo" id="xml-dropzone" role="button" tabindex="0">
+        <span class="drop-label">Drag &amp; Drop</span>
       </div>
       <input type="file" id="xml-file-input" accept=".xml" style="display:none" />
-      <div class="import-hint">Datei hier ablegen oder klicken, um zu importieren (.xml)</div>
+      <div class="import-hint" id="import-hint">Datei hier ablegen oder klicken, um zu importieren (.xml)</div>
     </section>
+
     <!-- Bereich für die Fragenliste -->
-    <section id="table-area" aria-label="Fragenliste">
-      <div class="demo-questions">
-        <!-- Hier werden die Fragen dynamisch eingefügt -->
+    <section id="table-area" >
+      <div class="demo-questions" >
+        <!-- Fragen werden dynamisch eingefügt -->
       </div>
       <!-- Button zum Hinzufügen einer neuen Frage -->
-      <button id="add-question-btn" class="add-question-btn" title="Neue Frage hinzufügen">+</button>
+      <button id="add-question-btn" class="add-question-btn" title="Neue Frage hinzufügen" type="button">+</button>
     </section>
 
-
     <!-- Exportbereich für XML -->
-    <section id="export-area" aria-label="Export" class="export-toolbar sticky-export modern-export">
-      <button id="btn-export-xml" data-testid="btn-export-xml">Als XML exportieren</button>
+    <section id="export-area" class="export-toolbar sticky-export modern-export">
+      <button id="btn-export-xml" type="button">Als XML exportieren</button>
     </section>
   </main>
 
-
-
   <!-- Modale Dialoge für Editor und Bestätigung -->
-  <div id="question-editor" data-testid="question-editor" class="modal" hidden></div>
+  <div id="question-editor" class="modal" hidden></div>
   <div id="confirm-dialog" class="modal" hidden></div>
+
   <!-- Haupt-JavaScript für die App -->
   <script type="module" src="src/main.js"></script>
- 
+
 </body>
 </html>
