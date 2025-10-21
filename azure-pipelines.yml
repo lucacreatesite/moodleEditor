@@ -1,0 +1,10 @@
+trigger:
+  - main   # oder master, je nach deinem Repo
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - checkout: self
+  - script: echo "GitHub → Azure Pipelines: Änderungen sichtbar!"
+    displayName: "Test build"
