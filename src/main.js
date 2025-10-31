@@ -155,7 +155,7 @@ function setupOptionsHandlers(container = document) {
                     if (list.children.length > 1) {
                         optionItem.remove();
                     } else {
-                        alert('Mindestens eine Antwortoption muss bleiben!');
+                        swal('Mindestens eine Antwortoption muss bleiben!',"","warning");
                     }
                 };
             }
@@ -174,7 +174,7 @@ function setupOptionsHandlers(container = document) {
             if (optionsList.children.length > 1) {
                 optionItem.remove();
             } else {
-                alert('Mindestens eine Antwortoption muss bleiben!');
+                swal('Mindestens eine Antwortoption muss bleiben!',"","warning");
             }
         };
     });
@@ -210,7 +210,7 @@ fileInput.addEventListener('change', e => {
 
 function handleXmlFile(file) {
     if (!file.name.toLowerCase().endsWith('.xml')) {
-        alert('Nur XML-Dateien sind erlaubt!');
+        swal('Nur XML-Dateien sind erlaubt!', "Bitte füge eine XML Datei ein" ,"error");
         return;
     }
 
@@ -279,6 +279,7 @@ function handleXmlFile(file) {
     };
 
     reader.readAsText(file);
+    swal("Der Import war erfolgreich!","Du kannst dein Frage nun bearbeiten","success")
 }
 
 
@@ -377,12 +378,27 @@ function downloadTextFile(filename, text) {
     URL.revokeObjectURL(url);
 }
 
-// Button "Als XML exportieren" verdrahten
+//In XML exportieren
 const exportBtn = document.getElementById('btn-export-xml');
 if (exportBtn) {
     exportBtn.addEventListener('click', () => {
         const xml = buildMoodleXmlFromDom();
-        downloadTextFile('moodle-questions.xml', xml);
+
+        // Fragetext aus dem DOM holen
+        const firstQuestionTextEl = document.querySelector('.demo-question .question-text, #q1-text');
+
+        // 2. Basis für Dateinamen bestimmen
+        let filenameBase = firstQuestionTextEl ? firstQuestionTextEl.textContent.trim() : 'moodle-questions';
+
+        //Dateinamen zusammensetzen
+        const filename = `${filenameBase || 'moodle-questions'}.xml`;
+
+       
+        downloadTextFile(filename, xml);
+
+        //"swal" dient als unser Alert Ersatz und wurde in index.html mit einer Libary eingefügt.
+        swal("Deine Datei wurde erfolgreich exportiert", `Dateiname: ${filename}`,"success");
     });
 }
+
 
