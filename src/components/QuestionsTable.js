@@ -1,3 +1,4 @@
+/*
 // Tabelle für Fragen mit Checkboxen für Single/Multi-Choice
 import store, { QuestionType } from '../store.js';
 
@@ -44,4 +45,4 @@ export function renderQuestionsTable(container) {
   });
   table.appendChild(tbody);
   container.appendChild(table);
-}
+} */

@@ -288,9 +288,9 @@ label {
   white-space: normal; /* Zeilenumbruch erlauben */
 }
 .option-percent {
-  width: 50px;
-  min-width: 50px;
-  max-width: 50px;
+  width: 90px;
+  min-width: 90px;
+  max-width: 90px;
   flex-shrink: 0;
   height: 34px; /* feste Höhe für Dropdown */
   display: flex;

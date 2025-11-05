@@ -1,5 +1,7 @@
 // Import-Bereich mit Drag&Drop und Datei-Input für JSON/CSV
 // Wird von der UI-Komponente genutzt, um Import zu ermöglichen
+
+/*
 export function renderImportArea(container) {
   container.innerHTML = '';
   const dropZone = document.createElement('div');
@@ -42,4 +44,4 @@ export function renderImportArea(container) {
 
   container.appendChild(dropZone);
   container.appendChild(fileInput);
-}
+} */

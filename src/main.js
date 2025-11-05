@@ -35,7 +35,12 @@ setupRemoveButtons();
 document.getElementById('add-question-btn').addEventListener('click', () => {
     let idx = 3;
     while (document.getElementById('q' + idx + '-text')) idx++;
-    const qid = 'q' + idx;
+
+
+    const qid = 'q' + idx; //hier ändern
+
+
+    
     const container = document.querySelector('.demo-questions');
     const div = document.createElement('div');
     div.innerHTML = createQuestionHtml(qid, 1);
@@ -155,7 +160,8 @@ function setupOptionsHandlers(container = document) {
                     if (list.children.length > 1) {
                         optionItem.remove();
                     } else {
-                        swal('Mindestens eine Antwortoption muss bleiben!',"","warning");
+                        //"swal" dient als unser Alert Ersatz und wurde in index.html mit einer Libary eingefügt.
+                        swal('Mindestens eine Antwortoption muss bleiben!',"","warning"); 
                     }
                 };
             }
@@ -340,8 +346,13 @@ function buildMoodleXmlFromDom() {
 
         // Komplette Frage als multichoice
         return `
+
+
+        
   <question type="multichoice">
-    <name><text>${escapeXml(qid)}</text></name>
+
+
+    <name><text>${escapeXml(qtext)}</text></name>
     <questiontext format="html">
       <text>${escapeXml(qtext)}</text>
     </questiontext>
@@ -387,7 +398,7 @@ if (exportBtn) {
         // Fragetext aus dem DOM holen
         const firstQuestionTextEl = document.querySelector('.demo-question .question-text, #q1-text');
 
-        // 2. Basis für Dateinamen bestimmen
+        // Basis für Dateinamen bestimmen
         let filenameBase = firstQuestionTextEl ? firstQuestionTextEl.textContent.trim() : 'moodle-questions';
 
         //Dateinamen zusammensetzen
@@ -396,7 +407,7 @@ if (exportBtn) {
        
         downloadTextFile(filename, xml);
 
-        //"swal" dient als unser Alert Ersatz und wurde in index.html mit einer Libary eingefügt.
+        
         swal("Deine Datei wurde erfolgreich exportiert", `Dateiname: ${filename}`,"success");
     });
 }

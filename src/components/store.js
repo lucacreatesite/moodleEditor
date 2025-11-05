@@ -1,3 +1,5 @@
+/*
+
 // Store für Fragen, Undo/Redo, Seed-Daten
 
 // Enum für Fragetypen (Single/Multi-Choice)
@@ -113,3 +115,5 @@ const store = {
 };
 
 export default store;
+
+*/
