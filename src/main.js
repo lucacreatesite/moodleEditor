@@ -213,6 +213,15 @@ fileInput.addEventListener('change', e => {
     if (fileInput.files.length) handleXmlFile(fileInput.files[0]);
 });
 
+
+// Hilfsfunktion zum Entfernen aller HTML-Tags
+
+function stripHtml(html) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || '';
+}
+
 //XML-Datei einlesen und Frage einfpügen
 
 function handleXmlFile(file) {
@@ -236,7 +245,9 @@ function handleXmlFile(file) {
         for (let i = 0; i < questions.length; i++) {
             const q = questions[i];
             const qid = 'q' + (i + 1);
-            const qText = q.querySelector('questiontext > text')?.textContent || 'Neue Frage';
+            const rawQText = q.querySelector('questiontext > text')?.textContent || 'Neue Frage';
+            const qText = stripHtml(rawQText); //HTML-Tags in der Frage sind so nicht mehr sichtbar.
+
 
             // Antworten auslesen 
             const options = q.getElementsByTagName('answer');
