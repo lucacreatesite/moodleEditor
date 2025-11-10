@@ -436,3 +436,11 @@ label {
   box-shadow: 0 4px 16px #0002;
   transform: scale(1.08);
 }
+/* Formatierungen, damit Ansicht des Fragentypus sichtbar ist */
+.demo-question[data-type="single"] .type-btn.single,
+.demo-question[data-type="multi"] .type-btn.multi {
+  background-color: #2a4d7a;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 6px;
+}

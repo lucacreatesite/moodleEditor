@@ -412,4 +412,12 @@ if (exportBtn) {
     });
 }
 
+// Für die Umschaltung zwischen Single/Multi pro Frage
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('type-btn')) {
+    const qDiv = e.target.closest('.demo-question');
+    if (!qDiv) return;
+    qDiv.dataset.type = e.target.classList.contains('multi') ? 'multi' : 'single';
+  }
+});
 
