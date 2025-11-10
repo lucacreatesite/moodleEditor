@@ -73,6 +73,7 @@ function getPercentDropdownHtml() {
           <option value="11.11111">11,11111%</option>
           <option value="10">10%</option>
           <option value="5">5%</option>
+          <option value="0">0%</option>
           <option value="-5">-5%</option>
           <option value="-10">-10%</option>
           <option value="-11.11111">-11,11111%</option>
