@@ -433,7 +433,7 @@ document.addEventListener('click', e => {
   }
 });
 
-// Noch einfacher: Automatisch alle DOM-Änderungen überwachen
+//Damit werden alle DOM-Änderungen überwacht
 function setupAutoSave() {
     const questionsContainer = document.querySelector('.demo-questions');
     if (!questionsContainer) return;
