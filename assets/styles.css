@@ -269,32 +269,30 @@ label {
 }
 .option-wrapper {
   display: flex;
-  align-items: flex-start; /* Dropdown oben ausrichten */
-  gap: 10px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
 }
 .option-wrapper label {
-  width: 300px; /* fixe Breite, z.B. 300px */
-  min-width: 800px;
-  max-width: 800px;
-  padding: 5px;
+  width: 100%;
+  min-width: 0;
+  padding: 6px;
   border: 1px solid #ccc;
   border-radius: 4px;
   overflow-wrap: break-word;
-  word-break: break-all;
-  flex-shrink: 0;
-  height: auto; /* dynamische Höhe */
+  word-break: break-word;
   display: flex;
   align-items: center;
-  white-space: normal; /* Zeilenumbruch erlauben */
+  white-space: normal;
 }
 .option-percent {
   width: 90px;
-  min-width: 90px;
-  max-width: 90px;
-  flex-shrink: 0;
-  height: 34px; /* feste Höhe für Dropdown */
+  min-width: 70px;
+  max-width: 120px;
+  height: 34px;
   display: flex;
-  align-items: flex-start; /* Inhalt oben ausrichten */
+  align-items: center;
+  justify-content: center;
 }
 .remove-option-btn {
   width: 30px;
@@ -444,3 +442,266 @@ label {
   font-weight: bold;
   border-radius: 6px;
 }
+
+/* ==========================
+   Responsive additions (mobile-first)
+   - flexible media, box-sizing, overflow protection
+   - form controls & buttons responsive
+   - tables scrollable on small screens
+   - modals constrained to viewport
+   - grid for demo-questions on larger screens
+   ========================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; min-height: 100%; overflow-x: hidden; -webkit-text-size-adjust: 100%; }
+
+/* flexible images/media */
+img, picture, video, svg { max-width: 100%; height: auto; display: block; }
+
+/* Prevent overflow from flex/grid children */
+section, header, main, .demo-questions, .import-dropzone-demo, .export-toolbar, .modal { min-width: 0; }
+
+/* Main layout - mobile first */
+.vertical-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.75rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  /* reserve space at bottom for fixed elements (button/toolbar) */
+  padding-bottom: 6.5rem;
+}
+
+/* Header/title */
+header { padding: 0.5rem 0; }
+header h1 { font-size: 1.25rem; margin: 0; line-height: 1.2; }
+
+/* Import area */
+#import-area { width: 100%; display: flex; flex-direction: column; gap: 0.5rem; align-items: stretch; }
+.import-dropzone-demo {
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: 8px;
+  text-align: center;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+/* Form controls: make inputs/selects/textarea fluid on mobile */
+input[type="text"], input[type="file"], input[type="search"], input[type="email"], input[type="number"],
+textarea, select, .form-control {
+  width: 100% !important;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Buttons: keep clickable area, allow wrapping when narrow */
+button, .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+
+/* Ensure button text wraps if needed and doesn't overflow */
+button .btn-label, .btn .btn-label { overflow-wrap: anywhere; }
+
+/* Make select dropdowns readable */
+select { min-height: 2.2rem; padding: 0.3rem 0.5rem; }
+
+/* Questions list: stacked on mobile */
+.demo-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+/* Tables: ensure they fit the viewport, allow horizontal scroll inside container (no page scroll) */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+.table-responsive-inline {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Modals: constrain to viewport, give padding on mobile */
+.modal {
+  box-sizing: border-box;
+  max-width: 95%;
+  margin: 1.25rem auto;
+  padding: 1rem;
+  background: transparent;
+  position: relative;
+}
+/* If modal uses inner dialog element (bootstrap-like), ensure it scales */
+.modal .modal-dialog, .modal .dialog {
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Floating add-button: accessible on small screens */
+.add-question-btn {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  z-index: 1200;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  line-height: 1;
+}
+
+/* Export toolbar: keep it visible but not overlapping content */
+.export-toolbar {
+  width: 100%;
+  padding: 0.5rem;
+  box-shadow: 0 -1px 4px rgba(0,0,0,0.04);
+  background: inherit;
+  position: sticky;
+  bottom: 0;
+  z-index: 800;
+}
+
+/* Small screens: avoid overlay issues */
+@media (max-width: 420px) {
+  .vertical-layout { padding-bottom: 7.5rem; }
+  .add-question-btn { width: 48px; height: 48px; right: 12px; bottom: 12px; font-size: 1.1rem; }
+  header h1 { font-size: 1.1rem; }
+}
+
+/* Tablet: >=600px - 2-column grid for questions, slight layout expansion */
+@media (min-width: 600px) {
+  .vertical-layout { padding: 1rem; gap: 1rem; padding-bottom: 5.5rem; }
+  header h1 { font-size: 1.5rem; }
+
+  .demo-questions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    align-items: start;
+  }
+
+  /* Allow form groups to place two controls side-by-side if desired */
+  .form-row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .form-row > * { flex: 1 1 48%; min-width: 160px; }
+}
+
+/* Desktop: >=900px - 3-column grid for questions and horizontal header */
+@media (min-width: 900px) {
+  header { display: flex; align-items: center; justify-content: space-between; }
+  header h1 { font-size: 1.75rem; }
+
+  .vertical-layout { padding: 1.25rem; }
+  .demo-questions { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+
+  .import-dropzone-demo { max-width: 1100px; margin: 0 auto; }
+}
+
+/* Very small screens: make sure interactive elements remain tappable */
+@media (max-width: 360px) {
+  button, .btn { padding: 0.45rem 0.6rem; }
+  input, select, textarea { padding: 0.45rem 0.5rem; font-size: 0.95rem; }
+}
+
+/* Options / Antwortmöglichkeiten - responsive (mobile-first) */
+.options-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.options-list li {
+  margin-bottom: 10px;
+  font-size: 1.05em;
+}
+
+/* mobile: gestapelt, volle Breite für Label, Gewichtung unter/nebendran */
+.option-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.option-wrapper label {
+  width: 100%;
+  min-width: 0;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  display: flex;
+  align-items: center;
+  white-space: normal;
+}
+
+/* Gewichtungs-Dropdown/Box */
+.option-percent {
+  width: 90px;
+  min-width: 70px;
+  max-width: 120px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Tablet: nebeneinander, mittlere feste Breite für Label (~420px) */
+@media (min-width: 600px) {
+  .option-wrapper {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .option-wrapper label {
+    flex: 0 0 420px;
+    max-width: 420px;
+  }
+  .option-percent {
+    align-self: flex-start;
+  }
+}
+
+/* Desktop/Laptop: ursprüngliche große Breite für Label (~800px) */
+@media (min-width: 900px) {
+  .option-wrapper {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .option-wrapper label {
+    flex: 0 0 800px;
+    min-width: 800px;
+    max-width: 800px;
+  }
+  .option-percent {
+    width: 90px;
+    min-width: 90px;
+    max-width: 90px;
+    height: 34px;
+    align-self: flex-start;
+  }
+}
+
+/* Helpful utility: wrap any wide element inside .table-responsive-inline in HTML where needed */
+/* Example usage (no HTML change required if you already use a wrapper): 
+   <div class="table-responsive-inline"><table class="table">...</table></div>
+*/
