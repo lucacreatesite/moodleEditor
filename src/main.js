@@ -339,10 +339,17 @@ function buildMoodleXmlFromDom() {
 
         const single = isSingleChoice(options);
 
-        // Validierung
-        if (!qtext) throw new Error(`Fragentext darf nicht leer sein (Frage ${idx + 1})`);
+        // Validierung, das Fragentext nicht leer ist
+        if (!qtext) {
+        alert(`Fragentext darf nicht leer sein`);
+        throw new Error(`Fragentext darf nicht leer sein (Frage ${idx + 1})`);
+        }
+
         options.forEach((opt, i) => {
-        if (!opt.text) throw new Error(`Antworttext darf nicht leer sein (Frage ${idx + 1}, Antwort ${i + 1})`, alert("Stopp"));
+        if (!opt.text) {
+            alert(`Antworttext darf nicht leer sein`);
+            throw new Error(`Antworttext darf nicht leer sein (Frage ${idx + 1}, Antwort ${i + 1})`);
+        }
         });
 
 
