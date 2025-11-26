@@ -339,6 +339,13 @@ function buildMoodleXmlFromDom() {
 
         const single = isSingleChoice(options);
 
+        // Validierung
+        if (!qtext) throw new Error(`Fragentext darf nicht leer sein (Frage ${idx + 1})`);
+        options.forEach((opt, i) => {
+        if (!opt.text) throw new Error(`Antworttext darf nicht leer sein (Frage ${idx + 1}, Antwort ${i + 1})`, alert("Stopp"));
+        });
+
+
         // Optional: Standardwerte
         const defaultgrade = "1.0000000";
         const penalty = "0.3333333";
