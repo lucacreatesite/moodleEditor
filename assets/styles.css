@@ -588,11 +588,12 @@ table {
   .vertical-layout { padding: 1rem; gap: 1rem; padding-bottom: 5.5rem; }
   header h1 { font-size: 1.5rem; }
 
+  /* Statt Grid: immer vertikal stapeln */
   .demo-questions {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
-    align-items: start;
+    align-items: stretch;
   }
 
   /* Allow form groups to place two controls side-by-side if desired */
@@ -604,13 +605,20 @@ table {
   .form-row > * { flex: 1 1 48%; min-width: 160px; }
 }
 
-/* Desktop: >=900px - 3-column grid for questions and horizontal header */
+/* Desktop: >=900px - entferne Multi-Column, alle Fragen untereinander */
 @media (min-width: 900px) {
   header { display: flex; align-items: center; justify-content: space-between; }
   header h1 { font-size: 1.75rem; }
 
   .vertical-layout { padding: 1.25rem; }
-  .demo-questions { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+
+  /* Auf großen Bildschirmen ebenfalls eine Kolonne, damit neue Fragen unter der ersten erscheinen */
+  .demo-questions {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: stretch;
+  }
 
   .import-dropzone-demo { max-width: 1100px; margin: 0 auto; }
 }
