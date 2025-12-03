@@ -341,13 +341,13 @@ function buildMoodleXmlFromDom() {
 
         // Validierung, das Fragentext nicht leer ist
         if (!qtext) {
-        alert(`Fragentext darf nicht leer sein`);
+        swal('Fragentext darf nicht leer sein',"","error");
         throw new Error(`Fragentext darf nicht leer sein (Frage ${idx + 1})`);
         }
 
         options.forEach((opt, i) => {
         if (!opt.text) {
-            alert(`Antworttext darf nicht leer sein`);
+            swal('Antwortetext darf nicht leer sein',"","error");
             throw new Error(`Antworttext darf nicht leer sein (Frage ${idx + 1}, Antwort ${i + 1})`);
         }
         });
@@ -477,4 +477,26 @@ document.addEventListener('DOMContentLoaded', function() {
     setupOptionsHandlers();
     setupEditable();
     setupRemoveButtons();
+});
+
+document.querySelector('.delete-button')?.addEventListener('click', () => {
+    swal({
+        title: "Wirklich alle Fragen löschen?",
+        icon: "warning",
+        buttons: ["Abbrechen", "Löschen"],
+        dangerMode: true,
+    }).then((willDelete) => {
+        if (willDelete) {
+            localStorage.clear();
+            location.reload();
+        }
+    });
+});
+
+document.getElementById('search-input')?.addEventListener('input', (e) => {
+    const search = e.target.value.toLowerCase();
+    document.querySelectorAll('.demo-question').forEach(q => {
+        const text = q.querySelector('strong')?.textContent.toLowerCase() || '';
+        q.style.display = text.includes(search) ? '' : 'none';
+    });
 });
