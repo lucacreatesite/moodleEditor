@@ -1,31 +1,6 @@
-export function stripHtml(html) {
-    const tmp = document.createElement('div');
-    tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || '';
-}
-
-export function escapeXml(s) {
-    return String(s)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&apos;");
-}
-
-export function downloadTextFile(filename, text) {
-    const blob = new Blob([text], { type: 'application/xml;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-}
-
+// Gibt das HTML für das Prozent-Dropdown einer Option zurück
 export function getPercentDropdownHtml() {
+    // Gibt das HTML für das Prozent-Dropdown zurück
     return `
         <select class="option-percent">
           <option value="100">100%</option>
@@ -68,5 +43,47 @@ export function getPercentDropdownHtml() {
           <option value="-90">-90%</option>
           <option value="-100">-100%</option>
         </select>
+      `;
+}
+
+// Gibt das HTML für eine einzelne Antwortoption zurück
+export function createOptionHtml(qid, optIdx, text = '') {
+    // Jede Option besteht aus einem editierbaren Label, Prozent-Dropdown und Löschbutton
+    return `
+        <li>
+          <div class="option-wrapper">
+            <label contenteditable="true" id="${qid}-opt${optIdx}">${text || 'Antwort ' + optIdx}</label>
+            ${getPercentDropdownHtml()}
+            <button class="remove-option-btn" title="Option löschen">-</button>
+          </div>
+        </li>
+      `;
+}
+
+// Gibt das HTML für eine komplette Frage inkl. Optionen zurück
+export function createQuestionHtml(qid, opts = 4, texts = []) {
+    let optionsHtml = '';
+    for (let i = 1; i <= opts; i++) {
+        optionsHtml += createOptionHtml(qid, i, texts[i - 1]);
+    }
+    // Frage besteht aus Header, Optionen und Button zum Hinzufügen weiterer Optionen
+    return `
+        <div class="demo-question" id="${qid}">
+          <div class="question-header">
+            <strong contenteditable="true" spellcheck="true" id="${qid}-text">Neue Frage</strong>
+            <div class="question-type-dnd">
+              <span>Typ wählen:</span>
+              <div class="type-buttons">
+                <button class="type-btn single">Single</button>
+                <button class="type-btn multi">Multi</button>
+              </div>
+            </div>
+            <button class="remove-question-btn" title="Frage löschen" data-qid="${qid}">-</button>
+          </div>
+          <ul class="options-list">
+            ${optionsHtml}
+          </ul>
+          <button class="add-option-btn" title="Option hinzufügen">+ Option hinzufügen</button>
+        </div>
       `;
 }
