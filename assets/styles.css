@@ -6,27 +6,33 @@ body {
   background: #f7f7fa;
   color: #222;
 }
+
 header {
   background: #2a4d7a;
   color: #fff;
   padding: 1rem 2rem 0.5rem 2rem;
 }
+
 header h1 {
   margin: 0 0 0.5rem 0;
   font-size: 1.7rem;
 }
+
 .toolbar {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
 }
-.toolbar button, .toolbar input[type="search"] {
+
+.toolbar button,
+.toolbar input[type="search"] {
   font-size: 1rem;
   padding: 0.4em 1em;
   border-radius: 4px;
   border: none;
   margin-right: 0.2em;
 }
+
 .toolbar button {
   background: #fff;
   color: #2a4d7a;
@@ -34,14 +40,18 @@ header h1 {
   cursor: pointer;
   transition: background 0.2s;
 }
-.toolbar button:focus, .toolbar button:hover {
+
+.toolbar button:focus,
+.toolbar button:hover {
   background: #e3eefd;
   outline: 2px solid #2a4d7a;
 }
+
 .toolbar input[type="search"] {
   border: 1px solid #bbb;
   min-width: 180px;
 }
+
 .layout {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -50,6 +60,7 @@ header h1 {
   max-width: 1200px;
   margin: 0 auto;
 }
+
 #import-area {
   background: #fff;
   border: 2px dashed #2a4d7a;
@@ -62,19 +73,23 @@ header h1 {
   transition: border-color 0.2s, background 0.2s;
   position: relative;
 }
+
 #import-area.hover {
   border-color: #1a7ad1;
   background: #e3eefd;
 }
+
 #import-area.error {
   border-color: #d12a2a;
   background: #ffeaea;
 }
+
 #import-area .error-msg {
   color: #d12a2a;
   font-weight: bold;
   margin-top: 1em;
 }
+
 #table-area {
   background: #fff;
   border-radius: 8px;
@@ -82,28 +97,35 @@ header h1 {
   min-height: 300px;
   box-shadow: 0 2px 8px #0001;
 }
+
 table[data-testid="questions-table"] {
   width: 100%;
   border-collapse: collapse;
   margin-top: 0.5rem;
 }
-table[data-testid="questions-table"] th, table[data-testid="questions-table"] td {
+
+table[data-testid="questions-table"] th,
+table[data-testid="questions-table"] td {
   padding: 0.5em 0.7em;
   border-bottom: 1px solid #e0e0e0;
   text-align: left;
 }
+
 table[data-testid="questions-table"] th {
   background: #e3eefd;
   position: sticky;
   top: 0;
   z-index: 1;
 }
+
 table[data-testid="questions-table"] tr.selected {
   background: #e3eefd;
 }
+
 table[data-testid="questions-table"] tr:focus-within {
   outline: 2px solid #2a4d7a;
 }
+
 .action-btn {
   background: none;
   border: none;
@@ -115,22 +137,30 @@ table[data-testid="questions-table"] tr:focus-within {
   border-radius: 3px;
   transition: background 0.2s;
 }
-.action-btn:focus, .action-btn:hover {
+
+.action-btn:focus,
+.action-btn:hover {
   background: #e3eefd;
   outline: 1px solid #2a4d7a;
 }
+
 .modal {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: #0007;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
+
 .modal[hidden] {
   display: none !important;
 }
+
 .modal .modal-content {
   background: #fff;
   border-radius: 8px;
@@ -141,13 +171,17 @@ table[data-testid="questions-table"] tr:focus-within {
   overflow: auto;
   box-shadow: 0 4px 24px #0003;
 }
+
 .modal .modal-actions {
   display: flex;
   gap: 1em;
   margin-top: 1.5em;
   justify-content: flex-end;
 }
-input, select, textarea {
+
+input,
+select,
+textarea {
   font-size: 1rem;
   padding: 0.4em 0.7em;
   border-radius: 4px;
@@ -156,15 +190,20 @@ input, select, textarea {
   width: 100%;
   box-sizing: border-box;
 }
-input:focus, select:focus, textarea:focus {
+
+input:focus,
+select:focus,
+textarea:focus {
   outline: 2px solid #2a4d7a;
   border-color: #2a4d7a;
 }
+
 label {
   font-weight: 500;
   margin-bottom: 0.2em;
   display: block;
 }
+
 .import-dropzone-demo {
   border: 2px dashed #2a4d7a;
   border-radius: 10px;
@@ -178,22 +217,26 @@ label {
   transition: border-color 0.2s, background 0.2s;
   position: relative;
 }
+
 .import-dropzone-demo .drop-label {
   font-weight: bold;
   font-size: 1.3em;
   letter-spacing: 0.05em;
 }
+
 .import-hint {
   text-align: center;
   color: #555;
   font-size: 1em;
   margin-bottom: 1.5em;
 }
+
 .demo-questions {
   display: flex;
   flex-direction: column;
   gap: 1.5em;
 }
+
 .demo-question {
   background: #fff;
   border-radius: 8px;
@@ -202,6 +245,7 @@ label {
   padding: 1.2em 1.5em 1em 1.5em;
   margin-bottom: 0.5em;
 }
+
 .question-header {
   display: flex;
   align-items: flex-start;
@@ -210,12 +254,14 @@ label {
   gap: 1em;
   flex-wrap: wrap;
 }
+
 .question-header strong {
   flex: 1 1 200px;
   min-width: 0;
   word-break: break-word;
   max-width: 100%;
 }
+
 .question-type {
   color: #2a4d7a;
   font-size: 0.98em;
@@ -223,6 +269,7 @@ label {
   align-items: center;
   gap: 0.3em;
 }
+
 .question-type-dnd {
   display: flex;
   align-items: center;
@@ -235,10 +282,12 @@ label {
   box-shadow: 0 1px 4px #0001;
   margin-left: auto;
 }
+
 .type-buttons {
   display: flex;
   gap: 0.5em;
 }
+
 .type-btn {
   font-size: 0.98em;
   padding: 0.4em 1.2em;
@@ -250,29 +299,26 @@ label {
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
 }
-.type-btn.single:hover, .type-btn.single:focus {
-  background: #2a4d7a;
-  color: #fff;
-}
-.type-btn.multi:hover, .type-btn.multi:focus {
-  background: #1a7ad1;
-  color: #fff;
-}
+
 .options-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 .options-list li {
-  margin-bottom: 10px; /* gleichmäßiger Abstand */
+  margin-bottom: 10px;
+  /* gleichmäßiger Abstand */
   font-size: 1.05em;
 }
+
 .option-wrapper {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 8px;
 }
+
 .option-wrapper label {
   width: 100%;
   min-width: 0;
@@ -285,6 +331,7 @@ label {
   align-items: center;
   white-space: normal;
 }
+
 .option-percent {
   width: 90px;
   min-width: 70px;
@@ -294,6 +341,7 @@ label {
   align-items: center;
   justify-content: center;
 }
+
 .remove-option-btn {
   width: 30px;
   height: 30px;
@@ -310,13 +358,15 @@ label {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+
 .remove-option-btn:hover {
   background: linear-gradient(45deg, #cc0000, #ff4444);
   transform: scale(1.1);
-  box-shadow: 0 3px 7px rgba(0,0,0,0.3);
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
 }
+
 .add-option-btn {
   margin-top: 10px;
   background: #4CAF50;
@@ -326,9 +376,11 @@ label {
   padding: 8px 15px;
   cursor: pointer;
 }
+
 .add-option-btn:hover {
   background: #45a049;
 }
+
 .sticky-export {
   position: sticky;
   bottom: 0;
@@ -341,12 +393,14 @@ label {
   gap: 1em;
   justify-content: flex-end;
 }
+
 .choice-buttons {
   display: flex;
   justify-content: center;
   gap: 2em;
   margin-top: 1.5em;
 }
+
 .choice-btn {
   font-size: 1.1em;
   padding: 1em 2.5em;
@@ -359,20 +413,26 @@ label {
   box-shadow: 0 2px 8px #0001;
   transition: background 0.2s, color 0.2s, box-shadow 0.2s;
 }
-.choice-btn.single:hover, .choice-btn.single:focus {
+
+.choice-btn.single:hover,
+.choice-btn.single:focus {
   background: #2a4d7a;
   color: #fff;
 }
-.choice-btn.multi:hover, .choice-btn.multi:focus {
+
+.choice-btn.multi:hover,
+.choice-btn.multi:focus {
   background: #1a7ad1;
   color: #fff;
 }
+
 .modern-export {
   justify-content: flex-end;
   background: #fff;
   border-top: 2px solid #2a4d7a;
   box-shadow: 0 -2px 8px #0001;
 }
+
 #btn-export-xml {
   background: linear-gradient(90deg, #2a4d7a 0%, #1a7ad1 100%);
   color: #fff;
@@ -385,10 +445,13 @@ label {
   cursor: pointer;
   transition: background 0.2s, box-shadow 0.2s;
 }
-#btn-export-xml:hover, #btn-export-xml:focus {
+
+#btn-export-xml:hover,
+#btn-export-xml:focus {
   background: linear-gradient(90deg, #1a7ad1 0%, #2a4d7a 100%);
   box-shadow: 0 4px 16px #0002;
 }
+
 .add-question-btn {
   display: block;
   margin: 2em auto 0 auto;
@@ -405,11 +468,14 @@ label {
   transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
   outline: none;
 }
-.add-question-btn:hover, .add-question-btn:focus {
+
+.add-question-btn:hover,
+.add-question-btn:focus {
   background: linear-gradient(90deg, #1a7ad1 0%, #2a4d7a 100%);
   box-shadow: 0 4px 16px #0002;
   transform: scale(1.08);
 }
+
 .remove-question-btn {
   margin-left: 1em;
   margin-top: 0.1em;
@@ -429,326 +495,228 @@ label {
   align-items: center;
   justify-content: center;
 }
-.remove-question-btn:hover, .remove-question-btn:focus {
+
+.remove-question-btn:hover,
+.remove-question-btn:focus {
   background: linear-gradient(90deg, #c0392b 0%, #e74c3c 100%);
   box-shadow: 0 4px 16px #0002;
   transform: scale(1.08);
 }
-/* Formatierungen, damit Ansicht des Fragentypus sichtbar ist */
-.demo-question[data-type="single"] .type-btn.single,
-.demo-question[data-type="multi"] .type-btn.multi {
-  background-color: #2a4d7a;
-  color: #fff;
-  font-weight: bold;
-  border-radius: 6px;
+
+/*Responsive Design */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-/* ==========================
-   Responsive additions (mobile-first)
-   - flexible media, box-sizing, overflow protection
-   - form controls & buttons responsive
-   - tables scrollable on small screens
-   - modals constrained to viewport
-   - grid for demo-questions on larger screens
-   ========================== */
+html,
+body {
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
 
-*, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; min-height: 100%; overflow-x: hidden; -webkit-text-size-adjust: 100%; }
+img,
+picture,
+video,
+svg {
+  max-width: 100%;
+  height: auto;
+}
 
-/* flexible images/media */
-img, picture, video, svg { max-width: 100%; height: auto; display: block; }
+header h1 {
+  font-size: clamp(1.25rem, 5vw, 1.75rem);
+  /* Min 1.25rem, Max 1.75rem */
+  line-height: 1.2;
+}
 
-/* Prevent overflow from flex/grid children */
-section, header, main, .demo-questions, .import-dropzone-demo, .export-toolbar, .modal { min-width: 0; }
-
-/* Main layout - mobile first */
+/* 3. Layout Wrapper */
 .vertical-layout {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 0.75rem;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  /* reserve space at bottom for fixed elements (button/toolbar) */
+  padding: 1rem;
   padding-bottom: 6.5rem;
+  /* Platz für Floating Buttons unten */
 }
 
-/* Header/title */
-header { padding: 0.5rem 0; }
-header h1 { font-size: 1.25rem; margin: 0; line-height: 1.2; }
+/* Desktop: Mehr Padding */
+@media (min-width: 900px) {
+  .vertical-layout {
+    padding: 2rem;
+  }
 
-/* Import area */
-#import-area { width: 100%; display: flex; flex-direction: column; gap: 0.5rem; align-items: stretch; }
-.import-dropzone-demo {
-  width: 100%;
-  padding: 0.9rem;
-  border-radius: 8px;
-  text-align: center;
-  overflow: hidden;
-  word-break: break-word;
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
 
-/* Form controls: make inputs/selects/textarea fluid on mobile */
-input[type="text"], input[type="file"], input[type="search"], input[type="email"], input[type="number"],
-textarea, select, .form-control {
-  width: 100% !important;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-/* Buttons: keep clickable area, allow wrapping when narrow */
-button, .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-  white-space: nowrap;
-}
-
-/* Ensure button text wraps if needed and doesn't overflow */
-button .btn-label, .btn .btn-label { overflow-wrap: anywhere; }
-
-/* Make select dropdowns readable */
-select { min-height: 2.2rem; padding: 0.3rem 0.5rem; }
-
-/* Questions list: stacked on mobile */
+/*Fragen-Container (Immer untereinander, egal ob Handy oder Desktop) */
 .demo-questions {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
   width: 100%;
 }
 
-/* Tables: ensure they fit the viewport, allow horizontal scroll inside container (no page scroll) */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: auto;
-}
-.table-responsive-inline {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+
+@media (max-width: 600px) {
+
+  input[type="text"],
+  input[type="file"],
+  select,
+  textarea {
+    width: 100% !important;
+    /* Volle Breite auf kleinen Screens */
+    font-size: 16px;
+    /* Verhindert Auto-Zoom auf iPhones */
+  }
 }
 
-/* Modals: constrain to viewport, give padding on mobile */
-.modal {
-  box-sizing: border-box;
-  max-width: 95%;
-  margin: 1.25rem auto;
-  padding: 1rem;
-  background: transparent;
-  position: relative;
-}
-/* If modal uses inner dialog element (bootstrap-like), ensure it scales */
-.modal .modal-dialog, .modal .dialog {
-  max-width: 720px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-/* Floating add-button: accessible on small screens */
-.add-question-btn {
+.add-question-btn,
+.delete-button {
   position: fixed;
-  right: 16px;
   bottom: 16px;
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  display: inline-flex;
+  z-index: 1200;
+  display: flex;
+  /* Zentriert das Icon */
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
-  z-index: 1200;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-  line-height: 1;
-}
-
-.delete-button {
-  position: fixed;
-  right: 100px;
-  bottom: 16px;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25rem;
-  z-index: 1200;
-  box-shadow: 0 6px 16px red;
-  line-height: 1;
-}
-
-.delete-butto:hover, .delete-button:focus {
-  background: linear-gradient(90deg, #dd380e 0%, #dd4213 100%);
-  box-shadow: 0 4px 16px #0002;
-  transform: scale(1.08);
-}
-
-.delete-button {
-  display: block;
-  margin: 2em auto 0 auto;
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: linear-gradient(90deg, #dd380e 0%, #dd4213 100%);
-  color: #fff;
-  font-size: 2.1em;
-  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   border: none;
-  box-shadow: 0 2px 8px #0002;
+  color: #fff;
+  /* Weißer Text/Icon */
+  font-size: 1.5rem;
+  /* Icon Größe */
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
-  outline: none;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* Export toolbar: keep it visible but not overlapping content */
+/* Der "Hinzufügen" Button (Blau) */
+.add-question-btn {
+  right: 16px;
+  background: linear-gradient(90deg, #2a4d7a 0%, #1a7ad1 100%);
+  /* Blau */
+}
+
+
+.delete-button {
+  right: 80px;
+  background: linear-gradient(90deg, #c0392b 0%, #e74c3c 100%);
+}
+
+/* Hover-Effekte für beide */
+.add-question-btn:hover,
+.delete-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* kleinere Screens: Buttons etwas kleiner */
+@media (max-width: 380px) {
+
+  .add-question-btn,
+  .delete-button {
+    width: 44px;
+    height: 44px;
+    bottom: 12px;
+    font-size: 1.2rem;
+  }
+
+  .add-question-btn {
+    right: 12px;
+  }
+
+  .delete-button {
+    right: 64px;
+  }
+}
+
+/*Modal & Export Toolbar (Sicherheit gegen Überlappung) */
+.modal {
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
 .export-toolbar {
   width: 100%;
-  padding: 0.5rem;
-  box-shadow: 0 -1px 4px rgba(0,0,0,0.04);
-  background: inherit;
-  position: sticky;
-  bottom: 0;
   z-index: 800;
-}
-
-/* Small screens: avoid overlay issues */
-@media (max-width: 420px) {
-  .vertical-layout { padding-bottom: 7.5rem; }
-  .add-question-btn { width: 48px; height: 48px; right: 12px; bottom: 12px; font-size: 1.1rem; }
-  header h1 { font-size: 1.1rem; }
-}
-
-/* Tablet: >=600px - 2-column grid for questions, slight layout expansion */
-@media (min-width: 600px) {
-  .vertical-layout { padding: 1rem; gap: 1rem; padding-bottom: 5.5rem; }
-  header h1 { font-size: 1.5rem; }
-
-  /* Statt Grid: immer vertikal stapeln */
-  .demo-questions {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: stretch;
-  }
-
-  /* Allow form groups to place two controls side-by-side if desired */
-  .form-row {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-  }
-  .form-row > * { flex: 1 1 48%; min-width: 160px; }
-}
-
-/* Desktop: >=900px - entferne Multi-Column, alle Fragen untereinander */
-@media (min-width: 900px) {
-  header { display: flex; align-items: center; justify-content: space-between; }
-  header h1 { font-size: 1.75rem; }
-
-  .vertical-layout { padding: 1.25rem; }
-
-  /* Auf großen Bildschirmen ebenfalls eine Kolonne, damit neue Fragen unter der ersten erscheinen */
-  .demo-questions {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    align-items: stretch;
-  }
-
-  .import-dropzone-demo { max-width: 1100px; margin: 0 auto; }
-}
-
-/* Very small screens: make sure interactive elements remain tappable */
-@media (max-width: 360px) {
-  button, .btn { padding: 0.45rem 0.6rem; }
-  input, select, textarea { padding: 0.45rem 0.5rem; font-size: 0.95rem; }
+  box-sizing: border-box;
 }
 
 /* Options / Antwortmöglichkeiten - responsive (mobile-first) */
+
 .options-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 .options-list li {
   margin-bottom: 10px;
-  font-size: 1.05em;
 }
 
-/* mobile: gestapelt, volle Breite für Label, Gewichtung unter/nebendran */
+/* Basis (Mobile): Alles untereinander */
 .option-wrapper {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  /* Stapeln */
   gap: 8px;
 }
 
+/* Das Textfeld */
 .option-wrapper label {
-  width: 100%;
-  min-width: 0;
+  /* Flexibilität */
+  display: flex;
+  align-items: center;
+
+  /* Optik */
   padding: 6px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  background: #fff;
+
+  /* Textverhalten */
+  width: 100%;
+  white-space: normal;
   overflow-wrap: break-word;
   word-break: break-word;
-  display: flex;
-  align-items: center;
-  white-space: normal;
 }
 
-/* Gewichtungs-Dropdown/Box */
+/* Das Dropdown & der Button */
+.option-percent,
+.remove-option-btn {
+  /* Verhindert, dass diese Elemente gequetscht werden */
+  flex-shrink: 0;
+}
+
+/* Dropdown Basis-Style */
 .option-percent {
   width: 90px;
-  min-width: 70px;
-  max-width: 120px;
   height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-/* Tablet: nebeneinander, mittlere feste Breite für Label (~420px) */
+/* Tablet (min-width: 600px):
+*/
 @media (min-width: 600px) {
   .option-wrapper {
     flex-direction: row;
-    align-items: flex-start;
+    /* Nebeneinander */
+    align-items: center;
+    /* Vertikal zentriert */
     gap: 10px;
   }
+
   .option-wrapper label {
-    flex: 0 0 420px;
-    max-width: 420px;
-  }
-  .option-percent {
-    align-self: flex-start;
+    width: auto;
+    flex: 1;
   }
 }
-
-/* Desktop/Laptop: ursprüngliche große Breite für Label (~800px) */
-@media (min-width: 900px) {
-  .option-wrapper {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  .option-wrapper label {
-    flex: 0 0 800px;
-    min-width: 800px;
-    max-width: 800px;
-  }
-  .option-percent {
-    width: 90px;
-    min-width: 90px;
-    max-width: 90px;
-    height: 34px;
-    align-self: flex-start;
-  }
-}
-
-/* Helpful utility: wrap any wide element inside .table-responsive-inline in HTML where needed */
-/* Example usage (no HTML change required if you already use a wrapper): 
-   <div class="table-responsive-inline"><table class="table">...</table></div>
-*/

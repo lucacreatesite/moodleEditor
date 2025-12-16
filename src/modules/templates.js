@@ -72,10 +72,20 @@ export function createQuestionHtml(qid, opts = 4, texts = []) {
           <div class="question-header">
             <strong contenteditable="true" spellcheck="true" id="${qid}-text">Neue Frage</strong>
             <div class="question-type-dnd">
-              <span>Typ wählen:</span>
-              <div class="type-buttons">
-                <button class="type-btn single">Single</button>
-                <button class="type-btn multi">Multi</button>
+              <span>Punkte wählen:</span>
+              <div class="point-select">
+                <select class="option-pointing">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>                                         
+                </select>
               </div>
             </div>
             <button class="remove-question-btn" title="Frage löschen" data-qid="${qid}">-</button>

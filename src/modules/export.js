@@ -27,26 +27,33 @@ function buildMoodleXmlFromDom() {
 
         const single = isSingleChoice(options);
 
-        // Validierung, das Fragentext nicht leer ist
+        // Validierung, dass Fragentext nicht leer ist
         if (!qtext) {
-        swal('Fragentext darf nicht leer sein',"","error");
-        throw new Error(`Fragentext darf nicht leer sein (Frage ${idx + 1})`);
+            swal('Fragentext darf nicht leer sein', "", "error");
+            throw new Error(`Fragentext darf nicht leer sein (Frage ${idx + 1})`);
         }
 
         options.forEach((opt, i) => {
-        if (!opt.text) {
-            swal('Antwortetext darf nicht leer sein',"","error");
-            throw new Error(`Antworttext darf nicht leer sein (Frage ${idx + 1}, Antwort ${i + 1})`);
-        }
+            if (!opt.text) {
+                swal('Antwortetext darf nicht leer sein', "", "error");
+                throw new Error(`Antworttext darf nicht leer sein (Frage ${idx + 1}, Antwort ${i + 1})`);
+            }
         });
 
-
-        // Optional: Standardwerte
-        const defaultgrade = "1.0000000";
+        
+        // Punkte aus dem Dropdown holen
+        const pointSelect = qDiv.querySelector('.option-pointing');
+        // Standard auf 1, falls Auswahl nicht gefunden
+        let pointsVal = 1; 
+        if (pointSelect && pointSelect.value) {
+            pointsVal = parseFloat(pointSelect.value);
+        }
+        // Formatieren auf 7 Nachkommastellen (z.B. "1.0000000")
+        const defaultgrade = isNaN(pointsVal) ? "1.0000000" : pointsVal.toFixed(7);
         const penalty = "0.3333333";
         const shuffleanswers = "1";
         const answernumbering = "abc";
-
+        
         // Antwort-XML
         const answersXml = options.map(opt => {
             // Moodle erwartet Prozent (auch Dezimal erlaubt)
@@ -60,12 +67,7 @@ function buildMoodleXmlFromDom() {
 
         // Komplette Frage als multichoice
         return `
-
-
-        
   <question type="multichoice">
-
-
     <name><text>${escapeXml(qtext)}</text></name>
     <questiontext format="html">
       <text>${escapeXml(qtext)}</text>
@@ -103,7 +105,7 @@ function downloadTextFile(filename, text) {
     URL.revokeObjectURL(url);
 }
 
-//In XML exportieren
+// In XML exportieren
 export function initExport() {
     const exportBtn = document.getElementById('btn-export-xml');
     if (exportBtn) {
@@ -111,26 +113,33 @@ export function initExport() {
 
             // Prüfung ob überhaupt Fragen da sind 
             if (document.querySelectorAll('.demo-question').length === 0) {
-                swal("Keine Fragen vorhanden, erstelle mindestens eine zum Exportieren!","","error");
-                return; 
+                swal("Keine Fragen vorhanden, erstelle mindestens eine zum Exportieren!", "", "error");
+                return;
             }
 
-            const xml = buildMoodleXmlFromDom();
+            // Hier können Fehler auftreten, daher try-catch Block sinnvoll (optional, aber sicher)
+            try {
+                const xml = buildMoodleXmlFromDom();
 
-            // Fragetext aus dem DOM holen
-            const firstQuestionTextEl = document.querySelector('.demo-question .question-text, #q1-text');
+                // Fragetext aus dem DOM holen
+                const firstQuestionTextEl = document.querySelector('.demo-question strong[id$="-text"]');
 
-            // Basis für Dateinamen bestimmen
-            let filenameBase = firstQuestionTextEl ? firstQuestionTextEl.textContent.trim() : 'moodle-questions';
+                // Basis für Dateinamen bestimmen
+                let filenameBase = firstQuestionTextEl ? firstQuestionTextEl.textContent.trim() : 'moodle-questions';
+                
+                // Falls Dateiname leer/ungültig
+                if(!filenameBase || filenameBase.length === 0) filenameBase = 'moodle-questions';
 
-            //Dateinamen zusammensetzen
-            const filename = `${filenameBase || 'moodle-questions'}.xml`;
+                // Dateinamen zusammensetzen
+                const filename = `${filenameBase}.xml`;
 
-        
-            downloadTextFile(filename, xml);
-
-            
-            swal("Deine Datei wurde erfolgreich exportiert", `Dateiname: ${filename}`,"success");
+                downloadTextFile(filename, xml);
+                swal("Deine Datei wurde erfolgreich exportiert", `Dateiname: ${filename}`, "success");
+                
+            } catch (e) {
+                console.error(e);
+                // Falls Validierung fehlschlägt (z.B. leerer Text) wurde swal schon im buildMoodleXmlFromDom aufgerufen
+            }
         });
     }
 }

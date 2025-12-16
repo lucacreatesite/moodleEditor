@@ -5,9 +5,6 @@ import { initImport } from './modules/import.js';
 import { initExport } from './modules/export.js';
 
 // Initialisiert Editierbarkeit und Entfernen-Buttons beim Laden
-// (Wird im DOMContentLoaded auch nochmal aufgerufen, aber hier für den globalen Scope falls nötig)
-// Hinweis: Da setupEditable in DOMContentLoaded ist, reicht es dort.
-
 // Fügt neue Frage hinzu (DOM und Handler)
 document.getElementById('add-question-btn').addEventListener('click', () => {
     let idx = 3;

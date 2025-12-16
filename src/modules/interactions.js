@@ -31,6 +31,16 @@ export function setupRemoveButtons() {
 
 // Bindet Option-Hinzufügen und Option-Entfernen Buttons für alle Fragen
 export function setupOptionsHandlers(container = document) {
+    
+    container.addEventListener('change', (e) => {
+        if (e.target.tagName === 'SELECT') {
+            const sel = e.target;
+            Array.from(sel.options).forEach(opt => {
+                if (opt.value === sel.value) opt.setAttribute('selected', 'selected');
+                else opt.removeAttribute('selected');
+            });
+        }
+    });
     // Handler für "Option hinzufügen"-Button
     container.querySelectorAll('.add-option-btn').forEach(btn => {
         btn.onclick = function () {
