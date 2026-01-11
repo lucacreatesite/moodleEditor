@@ -382,18 +382,18 @@ label {
 }
 
 .sticky-export {
-  position: sticky;
+  position: fixed; 
   bottom: 0;
-  background: #e3eefd;
+  left: 0;
+  right: 0;
+  background: #fff; 
   border-top: 2px solid #2a4d7a;
-  padding: 1em 0.5em 1em 0.5em;
-  box-shadow: 0 -2px 8px #0001;
-  z-index: 10;
+  padding: 1rem;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1100; 
   display: flex;
-  gap: 1em;
-  justify-content: flex-end;
+  justify-content: center; 
 }
-
 .choice-buttons {
   display: flex;
   justify-content: center;
@@ -581,7 +581,7 @@ header h1 {
 .add-question-btn,
 .delete-button {
   position: fixed;
-  bottom: 16px;
+  bottom: 95px;
   width: 52px;
   height: 52px;
   border-radius: 50%;
@@ -627,7 +627,7 @@ header h1 {
   .delete-button {
     width: 44px;
     height: 44px;
-    bottom: 12px;
+    bottom: 95px;
     font-size: 1.2rem;
   }
 

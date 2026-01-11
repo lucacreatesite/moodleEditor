@@ -1,11 +1,22 @@
 import { escapeXml } from './utils.js';
 
-// Aus aktuellem DOM (demo-question) Moodle-XML erzeugen
-function buildMoodleXmlFromDom() {
+// Diese Funktion erstellt das Moodle-XML inklusive des Kategorie-Blocks am Anfang
+function buildMoodleXmlFromDom(categoryName) {
     const questions = Array.from(document.querySelectorAll('.demo-question'));
 
-    // Hilfsfunktion: "single" ermitteln
-    // Heuristik: Single = genau eine Option mit positiver Punktzahl (>0) und diese ist 100%.
+    // Der Kategorie-Block definiert den Zielordner in der Moodle-Fragensammlung
+    const categoryXml = `
+  <question type="category">
+    <category>
+      <text>$course$/top/${escapeXml(categoryName)}</text>
+    </category>
+    <info format="html">
+      <text></text>
+    </info>
+    <idnumber></idnumber>
+  </question>`;
+
+    // Hilfsfunktion zur Bestimmung des Fragentyps (Single- oder Multiple-Choice)
     function isSingleChoice(opts) {
         const positives = opts.filter(o => o.fraction > 0);
         return positives.length === 1 && Math.abs(positives[0].fraction - 100) < 1e-6;
@@ -16,7 +27,6 @@ function buildMoodleXmlFromDom() {
         const qtextEl = qDiv.querySelector(`#${qid}-text`);
         const qtext = qtextEl ? qtextEl.textContent.trim() : `Frage ${idx + 1}`;
 
-        // Optionen einsammeln
         const options = Array.from(qDiv.querySelectorAll('ul.options-list > li')).map((li, i) => {
             const label = li.querySelector('label');
             const select = li.querySelector('select.option-percent');
@@ -27,36 +37,27 @@ function buildMoodleXmlFromDom() {
 
         const single = isSingleChoice(options);
 
-        // Validierung, dass Fragentext nicht leer ist
+        // Überprüfung auf leere Texte, um Importfehler in Moodle zu vermeiden
         if (!qtext) {
             swal('Fragentext darf nicht leer sein', "", "error");
-            throw new Error(`Fragentext darf nicht leer sein (Frage ${idx + 1})`);
+            throw new Error(`Fragentext fehlt bei Frage ${idx + 1}`);
         }
 
         options.forEach((opt, i) => {
             if (!opt.text) {
                 swal('Antwortetext darf nicht leer sein', "", "error");
-                throw new Error(`Antworttext darf nicht leer sein (Frage ${idx + 1}, Antwort ${i + 1})`);
+                throw new Error(`Antworttext fehlt bei Frage ${idx + 1}, Antwort ${i + 1}`);
             }
         });
 
-        
-        // Punkte aus dem Dropdown holen
         const pointSelect = qDiv.querySelector('.option-pointing');
-        // Standard auf 1, falls Auswahl nicht gefunden
         let pointsVal = 1; 
         if (pointSelect && pointSelect.value) {
             pointsVal = parseFloat(pointSelect.value);
         }
-        // Formatieren auf 7 Nachkommastellen (z.B. "1.0000000")
         const defaultgrade = isNaN(pointsVal) ? "1.0000000" : pointsVal.toFixed(7);
-        const penalty = "0.3333333";
-        const shuffleanswers = "1";
-        const answernumbering = "abc";
         
-        // Antwort-XML
         const answersXml = options.map(opt => {
-            // Moodle erwartet Prozent (auch Dezimal erlaubt)
             const fracStr = Number.isFinite(opt.fraction) ? String(opt.fraction) : "0";
             return `
       <answer fraction="${escapeXml(fracStr)}">
@@ -65,7 +66,6 @@ function buildMoodleXmlFromDom() {
       </answer>`;
         }).join('');
 
-        // Komplette Frage als multichoice
         return `
   <question type="multichoice">
     <name><text>${escapeXml(qtext)}</text></name>
@@ -74,25 +74,23 @@ function buildMoodleXmlFromDom() {
     </questiontext>
     <generalfeedback format="html"><text></text></generalfeedback>
     <defaultgrade>${defaultgrade}</defaultgrade>
-    <penalty>${penalty}</penalty>
+    <penalty>0.3333333</penalty>
     <hidden>0</hidden>
     <single>${single ? 'true' : 'false'}</single>
-    <shuffleanswers>${shuffleanswers}</shuffleanswers>
-    <answernumbering>${answernumbering}</answernumbering>
+    <shuffleanswers>1</shuffleanswers>
+    <answernumbering>abc</answernumbering>
     ${answersXml}
   </question>`;
     }).join('\n');
 
-    // Gesamtes Quiz
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+    return `<?xml version="1.0" encoding="UTF-8"?>
 <quiz>
+${categoryXml}
 ${questionXml}
 </quiz>`;
-
-    return xml;
 }
 
-// Datei-Download anstoßen
+// Startet den Download der generierten XML-Datei im Browser
 function downloadTextFile(filename, text) {
     const blob = new Blob([text], { type: 'application/xml;charset=utf-8' });
     const url = URL.createObjectURL(blob);
@@ -105,40 +103,46 @@ function downloadTextFile(filename, text) {
     URL.revokeObjectURL(url);
 }
 
-// In XML exportieren
+// Initialisiert den Export-Button und verarbeitet die Namenslogik
 export function initExport() {
     const exportBtn = document.getElementById('btn-export-xml');
     if (exportBtn) {
         exportBtn.addEventListener('click', () => {
 
-            // Prüfung ob überhaupt Fragen da sind 
             if (document.querySelectorAll('.demo-question').length === 0) {
-                swal("Keine Fragen vorhanden, erstelle mindestens eine zum Exportieren!", "", "error");
+                swal("Keine Fragen vorhanden!", "", "error");
                 return;
             }
 
-            // Hier können Fehler auftreten, daher try-catch Block sinnvoll (optional, aber sicher)
             try {
-                const xml = buildMoodleXmlFromDom();
+                const categoryInput = document.getElementById('category-input');
+                const userSpecifiedName = categoryInput ? categoryInput.value.trim() : '';
+                let finalCategoryName;
 
-                // Fragetext aus dem DOM holen
-                const firstQuestionTextEl = document.querySelector('.demo-question strong[id$="-text"]');
+                if (userSpecifiedName) {
+                    // Wenn der User einen Namen eingibt, wird dieser direkt ohne Versionierung genutzt
+                    finalCategoryName = userSpecifiedName;
+                } else {
+                    // Falls kein Name angegeben wurde, greift die automatische Versionierung
+                    const firstQuestionTextEl = document.querySelector('.demo-question strong[id$="-text"]');
+                    let baseName = firstQuestionTextEl ? firstQuestionTextEl.textContent.trim() : 'moodle-questions';
+                    if (!baseName) baseName = 'moodle-questions';
 
-                // Basis für Dateinamen bestimmen
-                let filenameBase = firstQuestionTextEl ? firstQuestionTextEl.textContent.trim() : 'moodle-questions';
-                
-                // Falls Dateiname leer/ungültig
-                if(!filenameBase || filenameBase.length === 0) filenameBase = 'moodle-questions';
+                    let version = parseInt(localStorage.getItem('moodle_export_version') || '1');
+                    finalCategoryName = `${baseName}_v${version}`;
+                    
+                    // Nur wenn die Versionierung genutzt wurde, erhöhen wir den Zähler für das nächste Mal
+                    localStorage.setItem('moodle_export_version', (version + 1).toString());
+                }
 
-                // Dateinamen zusammensetzen
-                const filename = `${filenameBase}.xml`;
+                const xml = buildMoodleXmlFromDom(finalCategoryName);
+                const filename = `${finalCategoryName}.xml`;
 
                 downloadTextFile(filename, xml);
-                swal("Deine Datei wurde erfolgreich exportiert", `Dateiname: ${filename}`, "success");
+                swal("Export abgeschlossen", `Kategorie: ${finalCategoryName}`, "success");
                 
             } catch (e) {
-                console.error(e);
-                // Falls Validierung fehlschlägt (z.B. leerer Text) wurde swal schon im buildMoodleXmlFromDom aufgerufen
+                console.error("Exportfehler:", e);
             }
         });
     }

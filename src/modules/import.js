@@ -29,10 +29,29 @@ function handleXmlFile(file) {
         const container = document.querySelector('.demo-questions');
         container.innerHTML = ''; 
 
+        // Kategoriefeld und Speicher zu Beginn des Imports leeren
+        const catInput = document.getElementById('category-input');
+        if (catInput) {
+            catInput.value = '';
+            localStorage.removeItem('autoSavedCategory');
+        }
+
         for (let i = 0; i < questions.length; i++) {
             const q = questions[i];
             
-            if (q.getAttribute('type') === 'category') continue;
+            // Falls der Block eine Kategorie definiert, wird der Name extrahiert
+            if (q.getAttribute('type') === 'category') {
+                const catText = q.querySelector('category > text')?.textContent || '';
+                // Entfernt den Moodle-Standardpfad, um nur den reinen Namen anzuzeigen
+                const cleanCat = catText.replace(/^\$course\$\/top\//, '');
+                
+                // Den gefundenen Namen im Feld und im LocalStorage speichern
+                if (catInput) {
+                    catInput.value = cleanCat;
+                    localStorage.setItem('autoSavedCategory', cleanCat);
+                }
+                continue;
+            }
 
             const qid = 'q' + (i + 1);
             const rawQText = q.querySelector('questiontext > text')?.textContent || 'Neue Frage';
@@ -97,7 +116,7 @@ function handleXmlFile(file) {
     };
 
     reader.readAsText(file);
-    swal("Der Import war erfolgreich!","Du kannst deine Fragen nun bearbeiten","success")
+    swal("Der Import war erfolgreich!","Du kannst deine Fragen nun bearbeiten","success");
 }
 
 export function initImport() {
