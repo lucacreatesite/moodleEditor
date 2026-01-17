@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fragen-Manager</title>
   <meta name="description" content="Editor zum Importieren, Bearbeiten und Exportieren von Moodle-Fragen als XML." />
-  
-<!-- Bootstrap Verlinkung (für Responsive)-->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 
   <!-- Zentrales CSS File -->
-  
-<link rel="stylesheet" href="assets/styles.css" />
+
+  <link rel="stylesheet" href="assets/styles.css" />
 </head>
+
 <body>
 
   <header>
@@ -23,7 +21,7 @@
   <!-- main bekommt nur role/aria für bessere Zugänglichkeit; keine strukturellen Änderungen -->
   <main class="vertical-layout" role="main" aria-label="Hauptinhalt">
     <!-- Importbereich für die XML-Dateien -->
-    <section id="import-area"  style="margin-top:2.5em;">
+    <section id="import-area" style="margin-top:2.5em;">
       <div class="import-dropzone-demo" id="xml-dropzone" role="button" tabindex="0">
         <span class="drop-label">Drag &amp; Drop</span>
       </div>
@@ -35,16 +33,16 @@
 
     <input type="text" id="category-input" placeholder="Kategoriename (z. B. Test-Fragen 1)..." />
 
-    
+
     <!-- Bereich für die Fragenliste -->
-    <section id="table-area" >
-      <div class="demo-questions" >
+    <section id="table-area">
+      <div class="demo-questions">
         <!-- Fragen werden dynamisch eingefügt -->
       </div>
       <!-- Button zum Hinzufügen einer neuen Frage -->
       <button id="add-question-btn" class="add-question-btn" title="Neue Frage hinzufügen" type="button">+</button>
       <!-- Button zum Löschen aller  Frage -->
-       <button class="delete-button" title="Formular löschen" type="button">-</button>
+      <button class="delete-button" title="Formular löschen" type="button">-</button>
     </section>
 
     <!-- Exportbereich für XML -->
@@ -57,7 +55,7 @@
   <div id="question-editor" class="modal" hidden></div>
   <div id="confirm-dialog" class="modal" hidden></div>
 
-  
+
 
   <!-- Haupt-JavaScript für die App -->
   <script type="module" src="src/main.js"></script>
@@ -65,4 +63,5 @@
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 </body>
+
 </html>

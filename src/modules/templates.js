@@ -1,7 +1,7 @@
 // Gibt das HTML für das Prozent-Dropdown einer Option zurück
 export function getPercentDropdownHtml() {
-    // Gibt das HTML für das Prozent-Dropdown zurück
-    return `
+  // Gibt das HTML für das Prozent-Dropdown zurück
+  return `
         <select class="option-percent">
           <option value="100">100%</option>
           <option value="90">90%</option>
@@ -48,8 +48,8 @@ export function getPercentDropdownHtml() {
 
 // Gibt das HTML für eine einzelne Antwortoption zurück
 export function createOptionHtml(qid, optIdx, text = '') {
-    // Jede Option besteht aus einem editierbaren Label, Prozent-Dropdown und Löschbutton
-    return `
+  // Jede Option besteht aus einem editierbaren Label, Prozent-Dropdown und Löschbutton
+  return `
         <li>
           <div class="option-wrapper">
             <label contenteditable="true" id="${qid}-opt${optIdx}">${text || 'Antwort ' + optIdx}</label>
@@ -62,12 +62,12 @@ export function createOptionHtml(qid, optIdx, text = '') {
 
 // Gibt das HTML für eine komplette Frage inkl. Optionen zurück
 export function createQuestionHtml(qid, opts = 4, texts = []) {
-    let optionsHtml = '';
-    for (let i = 1; i <= opts; i++) {
-        optionsHtml += createOptionHtml(qid, i, texts[i - 1]);
-    }
-    // Frage besteht aus Header, Optionen und Button zum Hinzufügen weiterer Optionen
-    return `
+  let optionsHtml = '';
+  for (let i = 1; i <= opts; i++) {
+    optionsHtml += createOptionHtml(qid, i, texts[i - 1]);
+  }
+  // Frage besteht aus Header, Optionen und Button zum Hinzufügen weiterer Optionen
+  return `
         <div class="demo-question" id="${qid}">
           <div class="question-header">
             <strong contenteditable="true" spellcheck="true" id="${qid}-text">Neue Frage</strong>
@@ -84,7 +84,7 @@ export function createQuestionHtml(qid, opts = 4, texts = []) {
                   <option value="7">7</option>
                   <option value="8">8</option>
                   <option value="9">9</option>
-                  <option value="10">10</option>                                         
+                  <option value="10">10</option>
                 </select>
               </div>
             </div>

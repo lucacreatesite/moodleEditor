@@ -34,6 +34,11 @@ function buildMoodleXmlFromDom(categoryName) {
             const fraction = select ? parseFloat(select.value) : 0;
             return { text, fraction };
         });
+        //Überprüfung auf mind. 2 Antwortemöglichkeiten, sonst keine Download!
+        if (options.length < 2) {
+            swal('Zu wenige Antworten!', `Frage ${idx + 1} benötigt mindestens zwei Antwortmöglichkeiten.`, "error");
+            throw new Error(`Validierung fehlgeschlagen: Zu wenige Antworten bei Frage ${idx + 1}`);
+        }
 
         const single = isSingleChoice(options);
 
@@ -51,12 +56,12 @@ function buildMoodleXmlFromDom(categoryName) {
         });
 
         const pointSelect = qDiv.querySelector('.option-pointing');
-        let pointsVal = 1; 
+        let pointsVal = 1;
         if (pointSelect && pointSelect.value) {
             pointsVal = parseFloat(pointSelect.value);
         }
         const defaultgrade = isNaN(pointsVal) ? "1.0000000" : pointsVal.toFixed(7);
-        
+
         const answersXml = options.map(opt => {
             const fracStr = Number.isFinite(opt.fraction) ? String(opt.fraction) : "0";
             return `
@@ -130,7 +135,7 @@ export function initExport() {
 
                     let version = parseInt(localStorage.getItem('moodle_export_version') || '1');
                     finalCategoryName = `${baseName}_v${version}`;
-                    
+
                     // Nur wenn die Versionierung genutzt wurde, erhöhen wir den Zähler für das nächste Mal
                     localStorage.setItem('moodle_export_version', (version + 1).toString());
                 }
@@ -140,7 +145,7 @@ export function initExport() {
 
                 downloadTextFile(filename, xml);
                 swal("Export abgeschlossen", `Kategorie: ${finalCategoryName}`, "success");
-                
+
             } catch (e) {
                 console.error("Exportfehler:", e);
             }

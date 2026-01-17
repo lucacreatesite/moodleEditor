@@ -31,7 +31,7 @@ export function setupRemoveButtons() {
 
 // Bindet Option-Hinzufügen und Option-Entfernen Buttons für alle Fragen
 export function setupOptionsHandlers(container = document) {
-    
+
     container.addEventListener('change', (e) => {
         if (e.target.tagName === 'SELECT') {
             const sel = e.target;
@@ -62,7 +62,7 @@ export function setupOptionsHandlers(container = document) {
                         optionItem.remove();
                     } else {
                         //"swal" dient als unser Alert Ersatz und wurde in index.html mit einer Libary eingefügt.
-                        swal('Mindestens eine Antwortoption muss bleiben!',"","warning"); 
+                        swal('Mindestens eine Antwortoption muss bleiben!', "", "warning");
                     }
                 };
             }
@@ -81,7 +81,7 @@ export function setupOptionsHandlers(container = document) {
             if (optionsList.children.length > 1) {
                 optionItem.remove();
             } else {
-                swal('Mindestens eine Antwortoption muss bleiben!',"","warning");
+                swal('Mindestens eine Antwortoption muss bleiben!', "", "warning");
             }
         };
     });

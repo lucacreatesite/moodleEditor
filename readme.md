@@ -18,16 +18,5 @@ Kein Login notwendig: Läuft vollständig lokal im Browser
 
 ## Wie wird das Tool benutzt?
 
-1. Seite aufrufen
-2. Mit "Frage hinzufügen" neue Frage erstellen.
-3. Fragetext und Antwortoptionen bearbeiten.
-4. Bei Bedarf Prozentwerte ("fraction") auswählen.
-5. Mit "Als XML exportieren" speichern.
-6. Die heruntergeladene Datei in Moodle → Fragensammlung importieren.
-
-## Import von vorhandenen Fragen
-
-- Moodle → Fragen exportieren (XML)
-- Datei im Tool per Drag-and-Drop oder Upload auswählen
-- Fragen erscheinen automatisch im Editor
+Siehe UserGuide.docx für eine Ausführliche Toolbeschreibung.
 

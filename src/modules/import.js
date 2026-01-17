@@ -15,7 +15,7 @@ function syncSelectAttribute(selectElement) {
 
 function handleXmlFile(file) {
     if (!file.name.toLowerCase().endsWith('.xml')) {
-        swal('Nur XML-Dateien sind erlaubt!', "Bitte füge eine XML Datei ein" ,"error");
+        swal('Nur XML-Dateien sind erlaubt!', "Bitte füge eine XML Datei ein", "error");
         return;
     }
 
@@ -27,7 +27,7 @@ function handleXmlFile(file) {
         const xmlDoc = parser.parseFromString(xmlContent, "text/xml");
         const questions = xmlDoc.getElementsByTagName('question');
         const container = document.querySelector('.demo-questions');
-        container.innerHTML = ''; 
+        container.innerHTML = '';
 
         // Kategoriefeld und Speicher zu Beginn des Imports leeren
         const catInput = document.getElementById('category-input');
@@ -38,13 +38,13 @@ function handleXmlFile(file) {
 
         for (let i = 0; i < questions.length; i++) {
             const q = questions[i];
-            
+
             // Falls der Block eine Kategorie definiert, wird der Name extrahiert
             if (q.getAttribute('type') === 'category') {
                 const catText = q.querySelector('category > text')?.textContent || '';
                 // Entfernt den Moodle-Standardpfad, um nur den reinen Namen anzuzeigen
                 const cleanCat = catText.replace(/^\$course\$\/top\//, '');
-                
+
                 // Den gefundenen Namen im Feld und im LocalStorage speichern
                 if (catInput) {
                     catInput.value = cleanCat;
@@ -55,9 +55,9 @@ function handleXmlFile(file) {
 
             const qid = 'q' + (i + 1);
             const rawQText = q.querySelector('questiontext > text')?.textContent || 'Neue Frage';
-            const qText = stripHtml(rawQText); 
+            const qText = stripHtml(rawQText);
 
-            const rawGrade = q.querySelector('defaultgrade')?.textContent || '1'; 
+            const rawGrade = q.querySelector('defaultgrade')?.textContent || '1';
             const defaultGrade = Math.round(parseFloat(rawGrade));
 
             const options = q.getElementsByTagName('answer');
@@ -67,10 +67,10 @@ function handleXmlFile(file) {
             for (let j = 0; j < options.length; j++) {
                 const ans = options[j];
                 optionTexts.push(ans.querySelector('text')?.textContent || `Antwort ${j + 1}`);
-                const fracRaw = ans.getAttribute('fraction'); 
+                const fracRaw = ans.getAttribute('fraction');
                 optionFractions.push(fracRaw ?? "0");
             }
-            
+
             const markup = createQuestionHtml(qid, optionTexts.length, optionTexts);
             const wrapper = document.createElement('div');
             wrapper.innerHTML = markup;
@@ -82,7 +82,7 @@ function handleXmlFile(file) {
                 if (defaultGrade >= 1 && defaultGrade <= 10) {
                     gradeSelect.value = defaultGrade.toString();
                 } else {
-                    gradeSelect.value = "1"; 
+                    gradeSelect.value = "1";
                 }
                 syncSelectAttribute(gradeSelect);
             }
@@ -98,7 +98,7 @@ function handleXmlFile(file) {
                 const sel = li.querySelector('select.option-percent');
                 if (!sel) return;
                 const raw = optionFractions[idx] ?? "0";
-                
+
                 const exact = Array.from(sel.options).find(o => o.value === raw);
                 if (exact) {
                     sel.value = exact.value;
@@ -116,13 +116,13 @@ function handleXmlFile(file) {
     };
 
     reader.readAsText(file);
-    swal("Der Import war erfolgreich!","Du kannst deine Fragen nun bearbeiten","success");
+    swal("Der Import war erfolgreich!", "Du kannst deine Fragen nun bearbeiten", "success");
 }
 
 export function initImport() {
     const dropzone = document.getElementById('xml-dropzone');
     const fileInput = document.getElementById('xml-file-input');
-    
+
     if (dropzone && fileInput) {
         dropzone.addEventListener('click', () => fileInput.click());
         dropzone.addEventListener('dragover', e => {

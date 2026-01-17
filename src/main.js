@@ -14,7 +14,7 @@ document.getElementById('add-question-btn').addEventListener('click', () => {
     const qid = 'q' + idx; //hier ändern
 
 
-    
+
     const container = document.querySelector('.demo-questions');
     const div = document.createElement('div');
     div.innerHTML = createQuestionHtml(qid, 1);
@@ -25,20 +25,20 @@ document.getElementById('add-question-btn').addEventListener('click', () => {
 
 // Für die Umschaltung zwischen Single/Multi pro Frage
 document.addEventListener('click', e => {
-  if (e.target.classList.contains('type-btn')) {
-    const qDiv = e.target.closest('.demo-question');
-    if (!qDiv) return;
-    qDiv.dataset.type = e.target.classList.contains('multi') ? 'multi' : 'single';
-  }
+    if (e.target.classList.contains('type-btn')) {
+        const qDiv = e.target.closest('.demo-question');
+        if (!qDiv) return;
+        qDiv.dataset.type = e.target.classList.contains('multi') ? 'multi' : 'single';
+    }
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     setupAutoSave();
-    
+
     setupOptionsHandlers();
     setupEditable();
     setupRemoveButtons();
-    
+
     // Initialisiere Module
     initImport();
     initExport();
